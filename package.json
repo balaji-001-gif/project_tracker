@@ -2,5 +2,8 @@
   "name": "project_tracker",
   "version": "1.0.0",
   "description": "Project Update Tracker for ERPNext",
-  "private": true
+  "private": true,
+  "scripts": {
+    "postinstall": "node scripts/register-app.js"
+  }
 }
