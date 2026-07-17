@@ -83,7 +83,8 @@ def get_project_detail(project):
             "progress_percentage", "workflow_state", "work_done_today",
             "work_planned_tomorrow", "blockers", "blocker_severity",
             "needs_attention", "hours_spent", "tasks_completed",
-            "is_published", "l1_approver", "l2_approver"
+            "is_published", "l1_approver", "l2_approver",
+            "github_repo_link"
         ],
         order_by="update_date desc, creation desc"
     )
@@ -96,7 +97,7 @@ def get_project_detail(project):
 def create_update(project, work_done_today, work_planned_tomorrow="",
                   blockers="", blocker_severity="", progress_percentage=0,
                   overall_status="On Track", hours_spent=0, tasks_completed=0,
-                  needs_attention=0, update_date=None):
+                  needs_attention=0, update_date=None, github_repo_link=""):
     """Create a new project update from the website."""
     user = frappe.session.user
     if not frappe.has_role(["Project Team Member", "Project Manager"]):
@@ -116,6 +117,7 @@ def create_update(project, work_done_today, work_planned_tomorrow="",
         "hours_spent": hours_spent,
         "tasks_completed": tasks_completed,
         "needs_attention": needs_attention,
+        "github_repo_link": github_repo_link,
         "workflow_state": "Draft",
     })
     doc.flags.ignore_duplicate_check = False

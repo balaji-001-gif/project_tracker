@@ -15,5 +15,8 @@
     <p class="text-warning"><strong>Blockers:</strong> {{ update.blocker_severity or '' }}</p>
     <div class="update-content">{{ update.blockers }}</div>
     {% endif %}
+    {% if update.github_repo_link %}
+    <p><strong>GitHub:</strong> <a href="{{ update.github_repo_link }}" target="_blank" rel="noopener">{{ update.github_repo_link }}</a></p>
+    {% endif %}
   </div>
 </div>

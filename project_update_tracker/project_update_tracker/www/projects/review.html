@@ -37,6 +37,11 @@
     <div class="update-content">{{ update.blockers }}</div>
     {% endif %}
 
+    {% if update.github_repo_link %}
+    <h3>GitHub Repository</h3>
+    <p><a href="{{ update.github_repo_link }}" target="_blank" rel="noopener">{{ update.github_repo_link }}</a></p>
+    {% endif %}
+
     <h3>Metrics</h3>
     <div class="row">
       <div class="col-md-3"><strong>Progress:</strong> {{ update.progress_percentage }}%</div>

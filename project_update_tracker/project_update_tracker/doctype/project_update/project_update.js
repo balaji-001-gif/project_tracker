@@ -61,11 +61,14 @@ frappe.ui.form.on("Project Update", {
 
     project: function(frm) {
         if (frm.doc.project) {
-            frappe.db.get_value("Project", frm.doc.project, ["project_name", "expected_end_date"])
+            frappe.db.get_value("Project", frm.doc.project, ["project_name", "expected_end_date", "custom_github_repo_link"])
                 .then(r => {
                     if (r && r.message) {
                         frm.set_value("project_name", r.message.project_name);
                         frm.set_value("planned_end_date", r.message.expected_end_date);
+                        if (r.message.custom_github_repo_link) {
+                            frm.set_value("github_repo_link", r.message.custom_github_repo_link);
+                        }
                     }
                 });
         }

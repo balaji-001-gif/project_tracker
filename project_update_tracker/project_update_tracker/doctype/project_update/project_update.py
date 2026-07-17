@@ -35,6 +35,9 @@ class ProjectUpdate(Document):
             self.project_manager = project.project_manager if hasattr(project, "project_manager") else None
             self.customer = project.customer if hasattr(project, "customer") else None
             self.planned_end_date = project.expected_end_date if hasattr(project, "expected_end_date") else None
+            # Auto-populate GitHub repo link from custom field on Project if available
+            if hasattr(project, "custom_github_repo_link") and project.custom_github_repo_link:
+                self.github_repo_link = project.custom_github_repo_link
 
     def populate_team_member_details(self):
         if self.team_member:
@@ -144,7 +147,8 @@ def get_recent_updates(project, limit=5):
         fields=[
             "name", "team_member_name", "update_date",
             "overall_status", "progress_percentage", "workflow_state",
-            "work_done_today", "blockers", "blocker_severity"
+            "work_done_today", "blockers", "blocker_severity",
+            "github_repo_link"
         ],
         order_by="update_date desc",
         limit_page_length=cint(limit),

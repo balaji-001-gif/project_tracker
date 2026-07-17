@@ -12,6 +12,7 @@
     "project_name",
     "project_manager",
     "customer",
+    "github_repo_link",
     "column_break_4",
     "team_member",
     "team_member_name",
@@ -87,6 +88,12 @@
       "label": "Customer",
       "options": "Customer",
       "read_only": 1
+    },
+    {
+      "fieldname": "github_repo_link",
+      "fieldtype": "Data",
+      "label": "GitHub Repo Link",
+      "options": "URL"
     },
     {
       "fieldname": "column_break_4",
