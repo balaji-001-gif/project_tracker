@@ -1,2 +1,2 @@
-frappe>=15.0.0
-erpnext>=15.0.0
+# Frappe and ERPNext are pre-installed in the bench environment.
+# No additional pip dependencies are needed.
