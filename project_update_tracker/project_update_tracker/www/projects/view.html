@@ -1,0 +1,55 @@
+{% extends "templates/web.html" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block header %}
+{% include "project_update_tracker/templates/includes/nav.html" %}
+{% endblock %}
+
+{% block content %}
+<div class="container put-container">
+  <ol class="breadcrumb">
+    <li><a href="/projects">Projects</a></li>
+    <li class="active">{{ project.project_name }}</li>
+  </ol>
+
+  <div class="put-project-header">
+    <h1>{{ project.project_name }}
+      <span class="badge status-{{ project.status|lower }}">{{ project.status }}</span>
+    </h1>
+    {% if project.customer_name %}<p><strong>Customer:</strong> {{ project.customer_name }}</p>{% endif %}
+    <p>
+      <strong>Progress:</strong> {{ project.percent_complete or 0 }}%
+      <div class="progress"><div class="progress-bar" style="width: {{ project.percent_complete or 0 }}%"></div></div>
+    </p>
+    {% if project.expected_end_date %}
+    <p><strong>Expected End:</strong> {{ frappe.format_date(project.expected_end_date) }}</p>
+    {% endif %}
+  </div>
+
+  {% if is_completed %}
+  <div class="alert alert-info">
+    <strong>This project is completed.</strong> Updates are view-only.
+  </div>
+  {% endif %}
+
+  {% if can_update and not is_completed %}
+  <div class="put-actions">
+    <a href="/projects/update/{{ project.name }}" class="btn btn-primary">
+      <i class="octicon octicon-plus"></i> Add Daily Update
+    </a>
+  </div>
+  {% endif %}
+
+  <h2>Project Updates ({{ project.updates|length }})</h2>
+  {% if not project.updates %}
+  <div class="put-empty"><p>No updates published yet.</p></div>
+  {% else %}
+  <div class="put-updates-list">
+    {% for update in project.updates %}
+      {% include "project_update_tracker/templates/includes/update_card.html" %}
+    {% endfor %}
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

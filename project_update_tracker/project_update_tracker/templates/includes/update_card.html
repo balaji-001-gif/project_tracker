@@ -1,0 +1,19 @@
+<div class="put-card update-card state-{{ update.workflow_state|lower|replace(' ', '-') }}">
+  <div class="put-card-header">
+    <span class="badge state-badge state-{{ update.workflow_state|lower|replace(' ', '-') }}">
+      {{ update.workflow_state }}
+    </span>
+    <small class="pull-right text-muted">{{ frappe.format_date(update.update_date) }}</small>
+  </div>
+  <div class="put-card-body">
+    <p><strong>By:</strong> {{ update.team_member_name }}</p>
+    <p><strong>Status:</strong> {{ update.overall_status or 'N/A' }} | Progress: {{ update.progress_percentage or 0 }}%</p>
+    <div class="progress"><div class="progress-bar" style="width: {{ update.progress_percentage or 0 }}%"></div></div>
+    <p><strong>Work Done:</strong></p>
+    <div class="update-content">{{ update.work_done_today or 'N/A' }}</div>
+    {% if update.blockers %}
+    <p class="text-warning"><strong>Blockers:</strong> {{ update.blocker_severity or '' }}</p>
+    <div class="update-content">{{ update.blockers }}</div>
+    {% endif %}
+  </div>
+</div>

@@ -1,0 +1,406 @@
+{
+  "actions": [],
+  "allow_import": 1,
+  "allow_rename": 1,
+  "autoname": "format:PU-{project}-{#####}",
+  "creation": "2024-01-01 00:00:00.000000",
+  "doctype": "DocType",
+  "engine": "InnoDB",
+  "field_order": [
+    "project_section",
+    "project",
+    "project_name",
+    "project_manager",
+    "customer",
+    "column_break_4",
+    "team_member",
+    "team_member_name",
+    "team_member_email",
+    "update_date",
+    "column_break_8",
+    "status",
+    "workflow_state",
+    "is_published",
+    "completion_section",
+    "progress_percentage",
+    "overall_status",
+    "column_break_completion",
+    "planned_end_date",
+    "days_remaining",
+    "update_details_section",
+    "work_done_today",
+    "work_planned_tomorrow",
+    "column_break_15",
+    "blockers",
+    "blocker_severity",
+    "needs_attention",
+    "metrics_section",
+    "hours_spent",
+    "overtime_hours",
+    "column_break_metrics",
+    "tasks_completed",
+    "tasks_pending",
+    "approval_section",
+    "l1_approver",
+    "l1_approved_on",
+    "l1_comments",
+    "column_break_approval",
+    "l2_approver",
+    "l2_approved_on",
+    "l2_comments",
+    "rejection_reason",
+    "attachments_section",
+    "attachments",
+    "amended_from"
+  ],
+  "fields": [
+    {
+      "fieldname": "project_section",
+      "fieldtype": "Section Break",
+      "label": "Project Information"
+    },
+    {
+      "fieldname": "project",
+      "fieldtype": "Link",
+      "in_list_view": 1,
+      "label": "Project",
+      "options": "Project",
+      "reqd": 1
+    },
+    {
+      "fieldname": "project_name",
+      "fieldtype": "Data",
+      "in_list_view": 1,
+      "label": "Project Name",
+      "read_only": 1
+    },
+    {
+      "fieldname": "project_manager",
+      "fieldtype": "Link",
+      "label": "Project Manager",
+      "options": "User",
+      "read_only": 1
+    },
+    {
+      "fieldname": "customer",
+      "fieldtype": "Link",
+      "label": "Customer",
+      "options": "Customer",
+      "read_only": 1
+    },
+    {
+      "fieldname": "column_break_4",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "team_member",
+      "fieldtype": "Link",
+      "label": "Team Member",
+      "options": "User",
+      "reqd": 1
+    },
+    {
+      "fieldname": "team_member_name",
+      "fieldtype": "Data",
+      "label": "Team Member Name",
+      "read_only": 1
+    },
+    {
+      "fieldname": "team_member_email",
+      "fieldtype": "Data",
+      "label": "Team Member Email",
+      "read_only": 1
+    },
+    {
+      "fieldname": "update_date",
+      "fieldtype": "Date",
+      "in_list_view": 1,
+      "label": "Update Date",
+      "reqd": 1
+    },
+    {
+      "fieldname": "column_break_8",
+      "fieldtype": "Column Break"
+    },
+    {
+      "default": "Draft",
+      "fieldname": "status",
+      "fieldtype": "Select",
+      "label": "Status",
+      "options": "Draft\nPending L1 Approval\nPending L2 Approval\nApproved\nRejected\nCompleted",
+      "read_only": 1
+    },
+    {
+      "fieldname": "workflow_state",
+      "fieldtype": "Data",
+      "hidden": 1,
+      "label": "Workflow State"
+    },
+    {
+      "default": "0",
+      "fieldname": "is_published",
+      "fieldtype": "Check",
+      "label": "Is Published (View-Only)",
+      "read_only": 1
+    },
+    {
+      "fieldname": "completion_section",
+      "fieldtype": "Section Break",
+      "label": "Project Completion Status"
+    },
+    {
+      "default": "0",
+      "fieldname": "progress_percentage",
+      "fieldtype": "Percent",
+      "label": "Progress %"
+    },
+    {
+      "fieldname": "overall_status",
+      "fieldtype": "Select",
+      "label": "Overall Status",
+      "options": "On Track\nAt Risk\nOff Track\nCompleted\nOn Hold"
+    },
+    {
+      "fieldname": "column_break_completion",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "planned_end_date",
+      "fieldtype": "Date",
+      "label": "Planned End Date",
+      "read_only": 1
+    },
+    {
+      "fieldname": "days_remaining",
+      "fieldtype": "Int",
+      "label": "Days Remaining",
+      "read_only": 1
+    },
+    {
+      "fieldname": "update_details_section",
+      "fieldtype": "Section Break",
+      "label": "Daily Update Details"
+    },
+    {
+      "fieldname": "work_done_today",
+      "fieldtype": "Text Editor",
+      "label": "Work Done Today",
+      "reqd": 1
+    },
+    {
+      "fieldname": "work_planned_tomorrow",
+      "fieldtype": "Text Editor",
+      "label": "Work Planned Tomorrow"
+    },
+    {
+      "fieldname": "column_break_15",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "blockers",
+      "fieldtype": "Text Editor",
+      "label": "Blockers / Issues"
+    },
+    {
+      "fieldname": "blocker_severity",
+      "fieldtype": "Select",
+      "label": "Blocker Severity",
+      "options": "\nLow\nMedium\nHigh\nCritical"
+    },
+    {
+      "default": "0",
+      "fieldname": "needs_attention",
+      "fieldtype": "Check",
+      "label": "Needs Manager Attention"
+    },
+    {
+      "fieldname": "metrics_section",
+      "fieldtype": "Section Break",
+      "label": "Metrics"
+    },
+    {
+      "default": "0",
+      "fieldname": "hours_spent",
+      "fieldtype": "Float",
+      "label": "Hours Spent Today"
+    },
+    {
+      "default": "0",
+      "fieldname": "overtime_hours",
+      "fieldtype": "Float",
+      "label": "Overtime Hours"
+    },
+    {
+      "fieldname": "column_break_metrics",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "tasks_completed",
+      "fieldtype": "Int",
+      "label": "Tasks Completed Today"
+    },
+    {
+      "fieldname": "tasks_pending",
+      "fieldtype": "Int",
+      "label": "Tasks Pending"
+    },
+    {
+      "fieldname": "approval_section",
+      "fieldtype": "Section Break",
+      "label": "Approval Information"
+    },
+    {
+      "fieldname": "l1_approver",
+      "fieldtype": "Link",
+      "label": "L1 Approver",
+      "options": "User",
+      "read_only": 1
+    },
+    {
+      "fieldname": "l1_approved_on",
+      "fieldtype": "Datetime",
+      "label": "L1 Approved On",
+      "read_only": 1
+    },
+    {
+      "fieldname": "l1_comments",
+      "fieldtype": "Small Text",
+      "label": "L1 Comments",
+      "read_only": 1
+    },
+    {
+      "fieldname": "column_break_approval",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "l2_approver",
+      "fieldtype": "Link",
+      "label": "L2 Approver",
+      "options": "User",
+      "read_only": 1
+    },
+    {
+      "fieldname": "l2_approved_on",
+      "fieldtype": "Datetime",
+      "label": "L2 Approved On",
+      "read_only": 1
+    },
+    {
+      "fieldname": "l2_comments",
+      "fieldtype": "Small Text",
+      "label": "L2 Comments",
+      "read_only": 1
+    },
+    {
+      "fieldname": "rejection_reason",
+      "fieldtype": "Text",
+      "label": "Rejection Reason",
+      "read_only": 1
+    },
+    {
+      "fieldname": "attachments_section",
+      "fieldtype": "Section Break",
+      "label": "Attachments"
+    },
+    {
+      "fieldname": "attachments",
+      "fieldtype": "Table",
+      "label": "Attachments",
+      "options": "Project Update Attachment"
+    },
+    {
+      "fieldname": "amended_from",
+      "fieldtype": "Link",
+      "label": "Amended From",
+      "options": "Project Update",
+      "read_only": 1
+    }
+  ],
+  "is_submittable": 1,
+  "indexed_web_pages": 0,
+  "links": [],
+  "modified": "2024-01-01 00:00:00.000000",
+  "modified_by": "Administrator",
+  "module": "Project Update Tracker",
+  "name": "Project Update",
+  "naming_rule": "Expression",
+  "owner": "Administrator",
+  "permissions": [
+    {
+      "create": 1,
+      "delete": 1,
+      "email": 1,
+      "export": 1,
+      "print": 1,
+      "read": 1,
+      "report": 1,
+      "role": "System Manager",
+      "share": 1,
+      "submit": 1,
+      "write": 1,
+      "amend": 1,
+      "cancel": 1
+    },
+    {
+      "create": 1,
+      "email": 1,
+      "export": 1,
+      "if_owner": 1,
+      "print": 1,
+      "read": 1,
+      "report": 1,
+      "role": "Project Team Member",
+      "share": 1,
+      "submit": 1,
+      "write": 1
+    },
+    {
+      "email": 1,
+      "export": 1,
+      "print": 1,
+      "read": 1,
+      "report": 1,
+      "role": "Project Approver L1",
+      "share": 1,
+      "submit": 1,
+      "write": 1
+    },
+    {
+      "email": 1,
+      "export": 1,
+      "print": 1,
+      "read": 1,
+      "report": 1,
+      "role": "Project Approver L2",
+      "share": 1,
+      "submit": 1,
+      "write": 1
+    },
+    {
+      "email": 1,
+      "export": 1,
+      "print": 1,
+      "read": 1,
+      "report": 1,
+      "role": "Project Manager",
+      "share": 1,
+      "submit": 1,
+      "write": 1
+    },
+    {
+      "email": 1,
+      "export": 1,
+      "print": 1,
+      "read": 1,
+      "report": 1,
+      "role": "Project Viewer",
+      "share": 1
+    }
+  ],
+  "sort_field": "modified",
+  "sort_order": "DESC",
+  "states": [],
+  "track_changes": 1,
+  "track_seen": 1,
+  "track_views": 1
+}

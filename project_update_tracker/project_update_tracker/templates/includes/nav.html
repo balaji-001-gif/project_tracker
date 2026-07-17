@@ -1,0 +1,29 @@
+<nav class="navbar navbar-default put-nav">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/projects">
+        <i class="octicon octicon-checklist"></i> Project Tracker
+      </a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li><a href="/projects">All Projects</a></li>
+      {% if is_team_member or is_project_manager %}
+      <li><a href="/projects/my">My Projects</a></li>
+      {% endif %}
+      {% if is_l1_approver or is_l2_approver or is_project_manager %}
+      <li>
+        <a href="/projects/approvals">
+          Approvals
+          {% if pending_count > 0 %}
+          <span class="badge badge-danger">{{ pending_count }}</span>
+          {% endif %}
+        </a>
+      </li>
+      {% endif %}
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <li><a href="/me">{{ frappe.session.user_fullname }}</a></li>
+      <li><a href="/login?redirect-to=/projects">Logout</a></li>
+    </ul>
+  </div>
+</nav>

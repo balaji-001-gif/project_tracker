@@ -1,0 +1,39 @@
+<div class="put-card project-card" data-status="{{ project.status|lower }}">
+  <div class="put-card-header">
+    <h4>
+      <a href="/projects/view/{{ project.name }}">{{ project.project_name }}</a>
+    </h4>
+    <span class="badge status-{{ project.status|lower|replace(' ', '-') }}">{{ project.status }}</span>
+  </div>
+  <div class="put-card-body">
+    {% if project.customer_name %}
+    <p><strong>Customer:</strong> {{ project.customer_name }}</p>
+    {% endif %}
+    <p><strong>Progress:</strong> {{ project.percent_complete or 0 }}%</p>
+    <div class="progress">
+      <div class="progress-bar" style="width: {{ project.percent_complete or 0 }}%"></div>
+    </div>
+    {% if project.expected_end_date %}
+    <p><strong>Expected End:</strong> {{ frappe.format_date(project.expected_end_date) }}</p>
+    {% endif %}
+    {% if project.today_updates is defined %}
+    <p>
+      <strong>Today:</strong>
+      {% if project.today_updates > 0 %}
+      <span class="text-success">Submitted ({{ project.today_updates }})</span>
+      {% else %}
+      <span class="text-danger">Pending</span>
+      {% endif %}
+    </p>
+    {% endif %}
+    {% if project.published_updates %}
+    <p><span class="badge badge-info">{{ project.published_updates }} published updates</span></p>
+    {% endif %}
+  </div>
+  <div class="put-card-footer">
+    <a href="/projects/view/{{ project.name }}" class="btn btn-sm btn-default">View</a>
+    {% if is_team_member or is_project_manager %}
+    <a href="/projects/update/{{ project.name }}" class="btn btn-sm btn-primary">Add Update</a>
+    {% endif %}
+  </div>
+</div>

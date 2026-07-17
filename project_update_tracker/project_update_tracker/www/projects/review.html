@@ -1,0 +1,145 @@
+{% extends "templates/web.html" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block header %}
+{% include "project_update_tracker/templates/includes/nav.html" %}
+{% endblock %}
+
+{% block content %}
+<div class="container put-container">
+  <ol class="breadcrumb">
+    <li><a href="/projects">Projects</a></li>
+    <li><a href="/projects/approvals">Approvals</a></li>
+    <li class="active">{{ update.name }}</li>
+  </ol>
+
+  <div class="put-review-header">
+    <h1>{{ update.name }}
+      <span class="badge state-{{ update.workflow_state|lower|replace(' ', '-') }}">{{ update.workflow_state }}</span>
+    </h1>
+    <p><strong>Project:</strong> <a href="/projects/view/{{ update.project }}">{{ update.project_name }}</a></p>
+    <p><strong>Team Member:</strong> {{ update.team_member_name }} ({{ update.team_member_email }})</p>
+    <p><strong>Date:</strong> {{ frappe.format_date(update.update_date) }}</p>
+  </div>
+
+  <div class="put-review-body">
+    <h3>Work Done Today</h3>
+    <div class="update-content">{{ update.work_done_today }}</div>
+
+    {% if update.work_planned_tomorrow %}
+    <h3>Work Planned Tomorrow</h3>
+    <div class="update-content">{{ update.work_planned_tomorrow }}</div>
+    {% endif %}
+
+    {% if update.blockers %}
+    <h3>Blockers <span class="badge badge-warning">{{ update.blocker_severity or 'Unspecified' }}</span></h3>
+    <div class="update-content">{{ update.blockers }}</div>
+    {% endif %}
+
+    <h3>Metrics</h3>
+    <div class="row">
+      <div class="col-md-3"><strong>Progress:</strong> {{ update.progress_percentage }}%</div>
+      <div class="col-md-3"><strong>Overall:</strong> {{ update.overall_status }}</div>
+      <div class="col-md-3"><strong>Hours:</strong> {{ update.hours_spent }}</div>
+      <div class="col-md-3"><strong>Tasks:</strong> {{ update.tasks_completed }}</div>
+    </div>
+  </div>
+
+  {% if update.can_approve_l1 or update.can_approve_l2 or update.can_resubmit or update.can_publish %}
+  <div class="put-review-actions">
+    <h3>Actions</h3>
+
+    {% if update.can_approve_l1 %}
+    <form id="put-approve-l1" class="put-action-form">
+      <div class="form-group">
+        <label>Comments (optional)</label>
+        <textarea name="comments" class="form-control" rows="2"></textarea>
+      </div>
+      <button type="button" class="btn btn-success" onclick="putAction('approve_l1')">Approve (L1)</button>
+      <button type="button" class="btn btn-danger" onclick="putReject('L1')">Reject</button>
+    </form>
+    {% endif %}
+
+    {% if update.can_approve_l2 %}
+    <form id="put-approve-l2" class="put-action-form">
+      <div class="form-group">
+        <label>Comments (optional)</label>
+        <textarea name="comments" class="form-control" rows="2"></textarea>
+      </div>
+      <button type="button" class="btn btn-success" onclick="putAction('approve_l2')">Approve (L2)</button>
+      <button type="button" class="btn btn-danger" onclick="putReject('L2')">Reject</button>
+    </form>
+    {% endif %}
+
+    {% if update.can_resubmit %}
+    <button type="button" class="btn btn-warning" onclick="putAction('resubmit_update')">Resubmit for L1</button>
+    {% endif %}
+
+    {% if update.can_publish %}
+    <button type="button" class="btn btn-info" onclick="putAction('publish_update')">Publish (View-Only)</button>
+    <button type="button" class="btn btn-primary" onclick="putAction('mark_completed')">Mark Completed</button>
+    {% endif %}
+
+    <div id="put-reject-form" style="display:none;">
+      <div class="form-group">
+        <label>Rejection Reason *</label>
+        <textarea id="put-reject-reason" class="form-control" rows="3" required></textarea>
+      </div>
+      <button type="button" class="btn btn-danger" onclick="putConfirmReject()">Confirm Reject</button>
+      <button type="button" class="btn btn-default" onclick="$('#put-reject-form').hide()">Cancel</button>
+    </div>
+  </div>
+  {% else %}
+  <div class="alert alert-info">No actions available for you on this update.</div>
+  {% endif %}
+
+  <div id="put-result-msg"></div>
+</div>
+
+<script>
+let pendingRejectLevel = null;
+
+function putAction(method) {
+  let args = { name: "{{ update.name }}" };
+  if (method === 'approve_l1' || method === 'approve_l2') {
+    args.comments = $(`#put-approve-${method.split('_')[1]} textarea[name=comments]`).val();
+  }
+  frappe.call({
+    method: `project_update_tracker.api.approval_api.${method}`,
+    args: args,
+    callback: function(r) {
+      if (r.exc) {
+        $('#put-result-msg').html(`<div class="alert alert-danger">${r.exc}</div>`);
+      } else {
+        location.reload();
+      }
+    }
+  });
+}
+
+function putReject(level) {
+  pendingRejectLevel = level;
+  $('#put-reject-form').show();
+}
+
+function putConfirmReject() {
+  const reason = $('#put-reject-reason').val();
+  if (!reason || reason.length < 5) {
+    alert('Please provide a rejection reason.');
+    return;
+  }
+  frappe.call({
+    method: 'project_update_tracker.api.approval_api.reject_update',
+    args: { name: "{{ update.name }}", reason: reason, level: pendingRejectLevel },
+    callback: function(r) {
+      if (r.exc) {
+        $('#put-result-msg').html(`<div class="alert alert-danger">${r.exc}</div>`);
+      } else {
+        location.reload();
+      }
+    }
+  });
+}
+</script>
+{% endblock %}

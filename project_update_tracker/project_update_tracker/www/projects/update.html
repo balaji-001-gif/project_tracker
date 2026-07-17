@@ -1,0 +1,106 @@
+{% extends "templates/web.html" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block header %}
+{% include "project_update_tracker/templates/includes/nav.html" %}
+{% endblock %}
+
+{% block content %}
+<div class="container put-container">
+  <ol class="breadcrumb">
+    <li><a href="/projects">Projects</a></li>
+    <li><a href="/projects/view/{{ project.name }}">{{ project.project_name }}</a></li>
+    <li class="active">Add Update</li>
+  </ol>
+
+  <h1>Add Daily Update</h1>
+  <p class="text-muted">{{ project.project_name }} — {{ frappe.format_date(frappe.utils.today()) }}</p>
+
+  {% if today_updates %}
+  <div class="alert alert-warning">
+    You already have {{ today_updates|length }} update(s) today for this project.
+    {% for u in today_updates %}
+    <br>• <a href="/projects/review/{{ u.name }}">{{ u.name }}</a> — {{ u.workflow_state }}
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <form id="put-update-form" method="post">
+    <input type="hidden" name="cmd" value="project_update_tracker.api.project_api.create_update">
+
+    <div class="form-group">
+      <label>Work Done Today *</label>
+      <textarea name="work_done_today" class="form-control" rows="4" required minlength="10"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>Work Planned Tomorrow</label>
+      <textarea name="work_planned_tomorrow" class="form-control" rows="3"></textarea>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label>Blockers / Issues</label>
+          <textarea name="blockers" class="form-control" rows="3"></textarea>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label>Blocker Severity</label>
+          <select name="blocker_severity" class="form-control">
+            <option value="">None</option>
+            <option value="Low">Low</option>
+            <option value="Medium">Medium</option>
+            <option value="High">High</option>
+            <option value="Critical">Critical</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-3">
+        <div class="form-group">
+          <label>Progress %</label>
+          <input type="number" name="progress_percentage" class="form-control" min="0" max="100" value="{{ project.percent_complete or 0 }}">
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-group">
+          <label>Overall Status</label>
+          <select name="overall_status" class="form-control">
+            <option value="On Track">On Track</option>
+            <option value="At Risk">At Risk</option>
+            <option value="Off Track">Off Track</option>
+            <option value="On Hold">On Hold</option>
+            <option value="Completed">Completed</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-group">
+          <label>Hours Spent</label>
+          <input type="number" name="hours_spent" class="form-control" min="0" step="0.5" value="0">
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-group">
+          <label>Tasks Completed</label>
+          <input type="number" name="tasks_completed" class="form-control" min="0" value="0">
+        </div>
+      </div>
+    </div>
+
+    <div class="checkbox">
+      <label><input type="checkbox" name="needs_attention" value="1"> Needs Manager Attention</label>
+    </div>
+
+    <input type="hidden" name="project" value="{{ project.name }}">
+
+    <button type="submit" class="btn btn-primary">Save & Submit for L1 Approval</button>
+    <a href="/projects/my" class="btn btn-default">Cancel</a>
+  </form>
+</div>
+{% endblock %}
