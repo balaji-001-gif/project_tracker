@@ -1,0 +1,6 @@
+{
+  "name": "project_tracker",
+  "version": "1.0.0",
+  "description": "Project Update Tracker for ERPNext",
+  "private": true
+}
