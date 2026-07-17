@@ -62,7 +62,7 @@ A complete Frappe/ERPNext app that enables teams to submit daily project updates
 bench get-app https://github.com/balaji-001-gif/project_tracker
 
 # 2. Install on your site
-bench --site yoursite.local install-app project_update_tracker
+bench --site yoursite.local install-app project_tracker
 
 # 3. Run migrations
 bench --site yoursite.local migrate
@@ -71,7 +71,7 @@ bench --site yoursite.local migrate
 bench --site yoursite.local clear-cache
 
 # 5. (Optional) Run tests
-bench --site yoursite.local run-tests --app project_update_tracker
+bench --site yoursite.local run-tests --app project_tracker
 ```
 
 ### What Gets Created Automatically
@@ -498,7 +498,7 @@ Access it from the Frappe Desk → Project Tracker Settings.
 ### App Structure
 
 ```
-project_update_tracker/
+project_tracker/
 ├── __init__.py
 ├── hooks.py                      # App hooks, permissions, events, scheduler
 ├── patches.txt
@@ -507,7 +507,7 @@ project_update_tracker/
 ├── README.md
 ├── LICENSE.txt
 ├── MANIFEST.in
-└── project_update_tracker/
+└── project_tracker/
     ├── __init__.py
     ├── modules.txt
     ├── install.py                # After-install setup (roles, workflow, templates)
@@ -539,26 +539,26 @@ All configuration is in `hooks.py`:
 # Document Events — validate, before_submit, on_update, etc.
 doc_events = {
     "Project Update": {
-        "validate": "project_update_tracker.utils.workflow.validate_project_update",
-        "before_submit": "project_update_tracker.utils.workflow.before_submit_handler",
-        "on_update": "project_update_tracker.utils.workflow.on_update_handler",
-        "after_insert": "project_update_tracker.utils.workflow.after_insert_handler",
-        "on_cancel": "project_update_tracker.utils.workflow.on_cancel_handler",
+        "validate": "project_tracker.utils.workflow.validate_project_update",
+        "before_submit": "project_tracker.utils.workflow.before_submit_handler",
+        "on_update": "project_tracker.utils.workflow.on_update_handler",
+        "after_insert": "project_tracker.utils.workflow.after_insert_handler",
+        "on_cancel": "project_tracker.utils.workflow.on_cancel_handler",
     }
 }
 
 # Custom permission hooks
 has_permission = {
-    "Project Update": "project_update_tracker.utils.permissions.has_permission",
+    "Project Update": "project_tracker.utils.permissions.has_permission",
 }
 permission_query_conditions = {
-    "Project Update": "project_update_tracker.utils.permissions.get_permission_query_conditions",
+    "Project Update": "project_tracker.utils.permissions.get_permission_query_conditions",
 }
 
 # Scheduler
 scheduler_events = {
-    "daily": ["project_update_tracker.utils.notifications.send_daily_update_reminders"],
-    "hourly": ["project_update_tracker.utils.notifications.check_pending_approvals"],
+    "daily": ["project_tracker.utils.notifications.send_daily_update_reminders"],
+    "hourly": ["project_tracker.utils.notifications.check_pending_approvals"],
 }
 ```
 

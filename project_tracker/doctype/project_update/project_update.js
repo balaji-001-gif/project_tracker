@@ -12,7 +12,7 @@ frappe.ui.form.on("Project Update", {
 
         frm.set_query("team_member", function() {
             return {
-                query: "project_update_tracker.api.project_api.get_project_users_query"
+                query: "project_tracker.api.project_api.get_project_users_query"
             };
         });
     },
@@ -22,7 +22,7 @@ frappe.ui.form.on("Project Update", {
         if (frm.doc.docstatus === 0 && frm.doc.workflow_state === "Draft") {
             frm.add_custom_button(__("Submit for L1 Approval"), function() {
                 frappe.call({
-                    method: "project_update_tracker.api.approval_api.submit_for_l1",
+                    method: "project_tracker.api.approval_api.submit_for_l1",
                     args: { name: frm.doc.name },
                     callback: function(r) {
                         if (!r.exc) {
@@ -36,7 +36,7 @@ frappe.ui.form.on("Project Update", {
         if (frm.doc.workflow_state === "Rejected" && frappe.has_role("Project Team Member")) {
             frm.add_custom_button(__("Resubmit"), function() {
                 frappe.call({
-                    method: "project_update_tracker.api.approval_api.resubmit_update",
+                    method: "project_tracker.api.approval_api.resubmit_update",
                     args: { name: frm.doc.name },
                     callback: function(r) {
                         if (!r.exc) frm.reload_doc();
@@ -49,7 +49,7 @@ frappe.ui.form.on("Project Update", {
         if (frm.doc.workflow_state === "Approved" && !frm.doc.is_published) {
             frm.add_custom_button(__("Publish (View-Only)"), function() {
                 frappe.call({
-                    method: "project_update_tracker.api.approval_api.publish_update",
+                    method: "project_tracker.api.approval_api.publish_update",
                     args: { name: frm.doc.name },
                     callback: function(r) {
                         if (!r.exc) frm.reload_doc();

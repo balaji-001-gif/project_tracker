@@ -6,7 +6,7 @@ def get_context(context):
     if not name:
         frappe.throw(_("Update name required"))
 
-    context.update = frappe.call("project_update_tracker.api.project_api.get_update_detail", name=name)
+    context.update = frappe.call("project_tracker.api.project_api.get_update_detail", name=name)
     context.title = f"Review: {context.update.get('name')}"
 
     context.is_l1_approver = frappe.has_role("Project Approver L1")
@@ -14,7 +14,7 @@ def get_context(context):
     context.is_project_manager = frappe.has_role("Project Manager")
     context.is_team_member = frappe.has_role("Project Team Member")
 
-    from project_update_tracker.utils import get_pending_approvals_count
+    from project_tracker.utils import get_pending_approvals_count
     context.pending_count = get_pending_approvals_count()
 
     return context

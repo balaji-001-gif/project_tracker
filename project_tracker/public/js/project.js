@@ -29,7 +29,7 @@ $(document).ready(function() {
 
     // Convert checkboxes
     formData.needs_attention = $('input[name=needs_attention]').is(':checked') ? 1 : 0;
-    formData.cmd = 'project_update_tracker.api.project_api.create_update';
+    formData.cmd = 'project_tracker.api.project_api.create_update';
 
     frappe.call({
       method: formData.cmd,
@@ -45,7 +45,7 @@ $(document).ready(function() {
           });
           // Now submit for L1
           frappe.call({
-            method: 'project_update_tracker.api.approval_api.submit_for_l1',
+            method: 'project_tracker.api.approval_api.submit_for_l1',
             args: { name: r.message },
             callback: function(r2) {
               if (r2.exc) {

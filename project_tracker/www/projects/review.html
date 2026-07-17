@@ -3,7 +3,7 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block header %}
-{% include "project_update_tracker/templates/includes/nav.html" %}
+{% include "project_tracker/templates/includes/nav.html" %}
 {% endblock %}
 
 {% block content %}
@@ -111,7 +111,7 @@ function putAction(method) {
     args.comments = $(`#put-approve-${method.split('_')[1]} textarea[name=comments]`).val();
   }
   frappe.call({
-    method: `project_update_tracker.api.approval_api.${method}`,
+    method: `project_tracker.api.approval_api.${method}`,
     args: args,
     callback: function(r) {
       if (r.exc) {
@@ -135,7 +135,7 @@ function putConfirmReject() {
     return;
   }
   frappe.call({
-    method: 'project_update_tracker.api.approval_api.reject_update',
+    method: 'project_tracker.api.approval_api.reject_update',
     args: { name: "{{ update.name }}", reason: reason, level: pendingRejectLevel },
     callback: function(r) {
       if (r.exc) {

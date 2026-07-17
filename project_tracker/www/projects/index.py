@@ -12,11 +12,11 @@ def get_context(context):
     context.is_l2_approver = frappe.has_role("Project Approver L2")
     context.is_project_viewer = frappe.has_role("Project Viewer")
 
-    from project_update_tracker.utils import get_pending_approvals_count
+    from project_tracker.utils import get_pending_approvals_count
     context.pending_count = get_pending_approvals_count()
 
     # All projects
-    context.projects = frappe.call("project_update_tracker.api.project_api.get_all_projects")
+    context.projects = frappe.call("project_tracker.api.project_api.get_all_projects")
 
     # Role check
     if not (context.is_team_member or context.is_project_manager or

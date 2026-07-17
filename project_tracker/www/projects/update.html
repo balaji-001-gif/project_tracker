@@ -3,7 +3,7 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block header %}
-{% include "project_update_tracker/templates/includes/nav.html" %}
+{% include "project_tracker/templates/includes/nav.html" %}
 {% endblock %}
 
 {% block content %}
@@ -27,7 +27,7 @@
   {% endif %}
 
   <form id="put-update-form" method="post">
-    <input type="hidden" name="cmd" value="project_update_tracker.api.project_api.create_update">
+    <input type="hidden" name="cmd" value="project_tracker.api.project_api.create_update">
 
     <div class="form-group">
       <label>Work Done Today *</label>

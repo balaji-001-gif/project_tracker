@@ -10,7 +10,7 @@ def get_context(context):
     context.is_project_manager = frappe.has_role("Project Manager")
     context.is_team_member = frappe.has_role("Project Team Member")
 
-    from project_update_tracker.utils import get_pending_approvals_count
+    from project_tracker.utils import get_pending_approvals_count
     context.pending_count = get_pending_approvals_count()
 
     context.l1_pending = []

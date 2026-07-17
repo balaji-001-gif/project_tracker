@@ -3,7 +3,7 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block header %}
-{% include "project_update_tracker/templates/includes/nav.html" %}
+{% include "project_tracker/templates/includes/nav.html" %}
 {% endblock %}
 
 {% block content %}
@@ -47,7 +47,7 @@
   {% else %}
   <div class="put-updates-list">
     {% for update in project.updates %}
-      {% include "project_update_tracker/templates/includes/update_card.html" %}
+      {% include "project_tracker/templates/includes/update_card.html" %}
     {% endfor %}
   </div>
   {% endif %}

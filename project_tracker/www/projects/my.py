@@ -12,8 +12,8 @@ def get_context(context):
     context.is_l1_approver = frappe.has_role("Project Approver L1")
     context.is_l2_approver = frappe.has_role("Project Approver L2")
 
-    from project_update_tracker.utils import get_pending_approvals_count
+    from project_tracker.utils import get_pending_approvals_count
     context.pending_count = get_pending_approvals_count()
 
-    context.projects = frappe.call("project_update_tracker.api.project_api.get_my_projects")
+    context.projects = frappe.call("project_tracker.api.project_api.get_my_projects")
     return context

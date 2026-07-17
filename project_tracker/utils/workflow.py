@@ -35,7 +35,7 @@ def on_update_handler(doc, method=None):
     state = doc.workflow_state
     settings = frappe.get_single("Project Tracker Settings")
 
-    from project_update_tracker.utils import notifications
+    from project_tracker.utils import notifications
 
     if state == "Pending L1 Approval" and settings.notify_on_submit:
         notifications.notify_l1_approvers(doc)
