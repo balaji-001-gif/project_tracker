@@ -58,8 +58,8 @@ A complete Frappe/ERPNext app that enables teams to submit daily project updates
 ### Steps
 
 ```bash
-# 1. Get the app
-bench get-app https://github.com/balaji-001-gif/project_tracker
+# 1. Get the app (--skip-assets is required for apps without frontend builds)
+bench get-app --skip-assets https://github.com/balaji-001-gif/project_tracker
 
 # 2. Install on your site
 bench --site yoursite.local install-app project_tracker
@@ -73,6 +73,8 @@ bench --site yoursite.local clear-cache
 # 5. (Optional) Run tests
 bench --site yoursite.local run-tests --app project_tracker
 ```
+
+> **Note:** The `--skip-assets` flag is required because this app has no frontend build pipeline (it uses Frappe's built-in website framework). Frappe v15's esbuild builds its app path map from `sites/apps.txt` at startup, but during `bench get-app` the app hasn't been registered there yet, causing the asset build step to fail. Use `--skip-assets` to bypass this step safely.
 
 ### What Gets Created Automatically
 
